@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: "Quicksand",
+        primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
@@ -25,18 +26,17 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
- 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final List<Transaction> _userTransaction = [
-    Transaction(id: "t1", title: "ayakkabı", amount: 300.25, date: DateTime.now()),
+    Transaction(
+        id: "t1", title: "ayakkabı", amount: 300.25, date: DateTime.now()),
     Transaction(id: "t1", title: "tshirt", amount: 20.12, date: DateTime.now()),
-    Transaction(id: "t1", title: "telefon", amount: 2500.45, date: DateTime.now())
+    Transaction(
+        id: "t1", title: "telefon", amount: 2500.45, date: DateTime.now())
   ];
   void _addNewTransaction(String title, double amount) {
     final newTx = new Transaction(
@@ -50,14 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
-
-  void _startAddNewTransaction(BuildContext ctx)
-  {
-
-    showModalBottomSheet(context: ctx, builder:(_){
-return NewTransaction(_addNewTransaction);
-    });
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return NewTransaction(_addNewTransaction);
+        });
   }
 
   @override
@@ -69,7 +67,6 @@ return NewTransaction(_addNewTransaction);
           IconButton(
               icon: Icon(
                 Icons.add,
-                color: Colors.white,
               ),
               onPressed: () {})
         ],
@@ -83,12 +80,13 @@ return NewTransaction(_addNewTransaction);
                 width: double.infinity,
                 height: 100,
                 child: Card(child: Text("CHART!!"), elevation: 10)),
-                TransactionList(_userTransaction)
+            TransactionList(_userTransaction)
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add, color: Colors.white), onPressed: ()=> _startAddNewTransaction(context) ),
+          child: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context)),
     );
   }
 }
