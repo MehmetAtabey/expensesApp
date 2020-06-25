@@ -9,6 +9,6 @@ class Transaction {
   double amount;
   @required
   DateTime date;
-
+  
   Transaction({this.id, this.amount, this.date, this.title});
 }
