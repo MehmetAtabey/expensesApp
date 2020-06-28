@@ -25,7 +25,7 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
         'amount': totalsum
       };
-    });
+    }).reversed.toList();
   }
 
   double get maxSpending {
@@ -36,24 +36,26 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Card(
-        elevation: 6,
-        margin: EdgeInsets.all(20.0),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: groupedTransactionValues.map((data) {
-                return Flexible(
-                  fit: FlexFit.tight,
-                  child: ChartBar(
-                      label: data['day'],
-                      spendingAmount: data['amount'],
-                      spendingPctOfTotal: maxSpending == 0.0
-                          ? 0.0
-                          : ((data['amount'] as double) / maxSpending)),
-                );
-              }).toList()),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.4,
+        child: Card(
+          color: Color.fromRGBO(68, 73, 98, 1),
+          elevation: 6,
+          margin: EdgeInsets.all(20.0),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+                children: groupedTransactionValues.map((data) {
+              return Expanded(
+                child: ChartBar(
+                    label: data['day'],
+                    spendingAmount: data['amount'],
+                    spendingPctOfTotal: maxSpending == 0.0
+                        ? 0.0
+                        : ((data['amount'] as double) / maxSpending)),
+              );
+            }).toList()),
+          ),
         ),
       ),
     );

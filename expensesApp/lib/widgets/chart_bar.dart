@@ -13,7 +13,9 @@ class ChartBar extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
-          FittedBox(child: Text(spendingAmount.toStringAsFixed(0))),
+          Container(
+              height: 20,
+              child: FittedBox(child: Text(spendingAmount.toStringAsFixed(0)))),
           SizedBox(height: 5),
           Container(
               width: 10,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -11,15 +12,31 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
+  DateTime dateExpense = DateTime.now();
 
-  void sumbitData() {
+  void _sumbitData() {
     final enteredtitle = titleController.text;
     final enteredamount = amountController.text;
     if (enteredtitle.isEmpty || double.parse(enteredamount) <= 0) return;
-    widget.addTx(titleController.text, double.parse(amountController.text));
-    Navigator.of(context).pop();
+    widget.addTx(titleController.text, double.parse(amountController.text),dateExpense);
+//    Navigator.of(context).pop();
+  }
+
+  void _prensentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((value) => {
+              if (value != null)
+                {
+                  setState(() {
+                    dateExpense = value;
+                  })
+                }
+            });
   }
 
   @override
@@ -33,15 +50,32 @@ class _NewTransactionState extends State<NewTransaction> {
             TextField(
                 controller: titleController,
                 decoration: InputDecoration(labelText: "Title"),
-                onSubmitted: (_) => sumbitData()),
+                onSubmitted: (_) => _sumbitData()),
             TextField(
                 controller: amountController,
                 decoration: InputDecoration(labelText: "Amount"),
                 keyboardType: TextInputType.number,
-                onSubmitted: (_) => sumbitData()),
-            FlatButton(
+                onSubmitted: (_) => _sumbitData()),
+            Container(
+              height: 70,
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                Text(
+                  dateExpense != null
+                      ? DateFormat.yMd().format(dateExpense)
+                      : 'No Date Chosen!',
+                  style: TextStyle(color: Colors.black),
+                ),
+                FlatButton(
+                    onPressed: _prensentDatePicker,
+                    child: Text('Choose Date',
+                        style: TextStyle(fontWeight: FontWeight.bold)))
+              ]),
+            ),
+            RaisedButton(
+                color: Theme.of(context).primaryColor,
+                textColor: Colors.white,
                 onPressed: () {
-                  sumbitData();
+                  _sumbitData();
                 },
                 child: Text("Add Transaction"))
           ],

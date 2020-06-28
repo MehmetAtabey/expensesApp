@@ -15,8 +15,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        textTheme: TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        ),
+        scaffoldBackgroundColor: Color.fromRGBO(47, 49, 64, 1),
         fontFamily: "Quicksand",
-        primarySwatch: Colors.blueGrey,
+        primaryColor: Color.fromRGBO(47, 49, 64, 1),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
@@ -35,16 +43,22 @@ class _MyHomePageState extends State<MyHomePage> {
     // Transaction(id: "t1", title: "tshirt", amount: 20.12, date: DateTime.now()),
     // Transaction(id: "t1", title: "telefon", amount: 2500.45, date: DateTime.now())
   ];
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime _date) {
     final newTx = new Transaction(
         id: Random.secure().nextInt(99999).toString(),
         title: title,
         amount: amount,
-        date: DateTime.now());
+        date: _date);
 
     setState(() {
       _userTransaction.add(newTx);
     });
+  }
+
+  void _deleteTransaction(String _id) {
+    setState(() {
+      _userTransaction.removeWhere((element) => element.id == _id);
+    });  
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -65,14 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(
                 Icons.add,
               ),
-              onPressed: () {})
+              onPressed: () => _startAddNewTransaction(context))
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Chart(_userTransaction),
-            TransactionList(_userTransaction)
+            TransactionList(_userTransaction,_deleteTransaction)
           ],
         ),
       ),
